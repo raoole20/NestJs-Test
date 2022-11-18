@@ -1,4 +1,5 @@
-import { CreateStudent, StudentBasicResponse, UpdateStudent } from "../types"
+import {  StudentBasicResponse } from "../types"
+import { CreateStudent, UpdateStudent } from "../classes"
 
 export interface IStudentController{
     getStudent(id?:string) : Promise<StudentBasicResponse>

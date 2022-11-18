@@ -1,9 +1,10 @@
 import { Body, Controller, Delete, Get, Logger, Param, Post, Query, UsePipes, ValidationPipe, Put } from '@nestjs/common'
-import { Route } from 'tsoa';
+import { ApiResponse, ApiTags } from '@nestjs/swagger/dist/decorators';
 import { IStudentController } from "./interfaces";
-import { CreateStudent, StudentBasicResponse, UpdateStudent } from './types';
+import { StudentBasicResponse  } from './types';
+import {  CreateStudent, StudentResponse, UpdateStudent } from './classes'
 
-@Route('/api/v1/student')
+@ApiTags('student')
 @Controller('/api/v1/student')
 export class StudentController implements IStudentController{
 
@@ -17,6 +18,12 @@ export class StudentController implements IStudentController{
      * @return { StudentBasicResponse }
      */
     @Get('/')
+    @ApiResponse({ 
+        status: 202, 
+        description: 
+        'Students were correctly obtained',
+        type: StudentResponse
+    })
     async getStudent(@Query('id')id?: string): Promise<StudentBasicResponse> {
         if( id ){
             //  find for id
@@ -26,7 +33,7 @@ export class StudentController implements IStudentController{
                 age: 12,
                 phone: '',
                 email: '',
-                Qualification: []
+                qualification: []
             }
         }else{
             // find all
@@ -35,7 +42,7 @@ export class StudentController implements IStudentController{
                 age: 12,
                 phone: '',
                 email: '',
-                Qualification: []
+                qualification: []
             }
         }
     }
@@ -54,7 +61,7 @@ export class StudentController implements IStudentController{
             age: 12,
             phone: '',
             email: '',
-            Qualification: []
+            qualification: []
         }
     }
 
