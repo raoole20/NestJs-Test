@@ -3,8 +3,8 @@ import { Route } from 'tsoa';
 import { IStudentController } from "./interfaces";
 import { CreateStudent, StudentBasicResponse, UpdateStudent } from './types';
 
-@Route('/api/v1/Student')
-@Controller('/api/v1/Student')
+@Route('/api/v1/student')
+@Controller('/api/v1/student')
 export class StudentController implements IStudentController{
 
     private readonly logger = new Logger(StudentController.name) 
@@ -17,13 +17,26 @@ export class StudentController implements IStudentController{
      * @return { StudentBasicResponse }
      */
     @Get('/')
-    async getStudent(@Query()id?: string): Promise<StudentBasicResponse> {
-        return {
-            name: '',
-            age: 12,
-            phone: '',
-            email: '',
-            Qualification: []
+    async getStudent(@Query('id')id?: string): Promise<StudentBasicResponse> {
+        if( id ){
+            //  find for id
+            // TODO Crear una funcion que busque por id
+            return {
+                name: 'the id is ' + id,
+                age: 12,
+                phone: '',
+                email: '',
+                Qualification: []
+            }
+        }else{
+            // find all
+            return {
+                name: 'hello',
+                age: 12,
+                phone: '',
+                email: '',
+                Qualification: []
+            }
         }
     }
 
@@ -35,8 +48,9 @@ export class StudentController implements IStudentController{
     @UsePipes()
     @Post('/')
     async createStudent(@Body(new ValidationPipe()) StudentData: CreateStudent): Promise<StudentBasicResponse> {
+        this.logger.debug(`param Body is ${Body}`)
         return {
-            name: '',
+            name: 'post',
             age: 12,
             phone: '',
             email: '',
@@ -49,9 +63,13 @@ export class StudentController implements IStudentController{
      * @param { string } id student id
      * @param { UpdateStudent } StudentData Student data to be updated
      */
+    @UsePipes()
     @Put(':id')
-    async updateStudent(@Param()id: string, @Body()StudentData: UpdateStudent): Promise<any> {
-        
+    async updateStudent(@Param('id')id: string, @Body(new ValidationPipe())StudentData: UpdateStudent): Promise<any> {
+        this.logger.debug(`Param ${id} Body ${StudentData}`, StudentData)
+        return {
+            message: "holi"
+        }
     }
 
     /**
@@ -59,7 +77,10 @@ export class StudentController implements IStudentController{
      * @param { string } id student id
      */
     @Delete(':id')
-    async deleteStudent(id: string): Promise<any> {
-        
+    async deleteStudent(@Param('id')id: string): Promise<any> {
+        this.logger.debug(`[api/v1/student/${id}] Delete Param is ${id}`)
+        return {
+            message: 'delte work'
+        }
     }
 }
