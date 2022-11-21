@@ -25,6 +25,7 @@ export class StudentController implements IStudentController{
         type: StudentResponse
     })
     async getStudent(@Query('id')id?: string): Promise<StudentBasicResponse> {
+        this.logger.debug(`env: `, process.env.AWS_SECRET_ACCESS_KEY)
         if( id ){
             //  find for id
             // TODO Crear una funcion que busque por id

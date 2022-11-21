@@ -5,11 +5,14 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  const description = `API to manage a DynamonDB database of students.
+
+  Creator: Raul Espina FullStack Developer \n
+  email: espinaraul8@gmail.com`
   const options = new DocumentBuilder()
-    .setTitle('Products')
-    .setDescription('This is my description')
+    .setTitle('API Rest Full Students')
+    .setDescription(description)
     .setVersion('1.0')
-    .addTag('products')
     .build()
 
   const document = SwaggerModule.createDocument(app, options)
@@ -19,7 +22,7 @@ async function bootstrap() {
       filter: true,
       showRequestDuration: true
     }
-  })
+  }) 
 
   await app.listen(3000);
 }
